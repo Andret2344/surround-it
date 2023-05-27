@@ -27,7 +27,7 @@ module.exports = {
 			patterns: [{ from: 'manifest.json', to: 'manifest.json' }]
 		}),
 		new CopyWebpackPlugin({
-			patterns: [{ from: 'icon', to: 'icon' }]
+			patterns: [{ from: 'assets', to: 'assets' }]
 		}),
 		new CopyWebpackPlugin({
 			patterns: [{ from: 'node_modules/jquery/dist/jquery.min.js', to: 'libs/jquery.min.js' }]

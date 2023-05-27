@@ -4,14 +4,6 @@
 	"short_name": "Surround it",
 	"version": "0.2.0",
 	"description": "Simply wrap text in any brackets or parentheses.",
-	"action": {
-		"default_icon": {
-			"16": "icon/img16.png",
-			"32": "icon/img32.png",
-			"48": "icon/img48.png",
-			"128": "icon/img128.png"
-		}
-	},
 	"content_scripts": [
 		{
 			"matches": [
@@ -24,26 +16,13 @@
 		}
 	],
 	"icons": {
-		"16": "icon/img16.png",
-		"32": "icon/img32.png",
-		"48": "icon/img48.png",
-		"128": "icon/img128.png"
+		"16": "assets/icons/img16.png",
+		"32": "assets/icons/img32.png",
+		"48": "assets/icons/img48.png",
+		"128": "assets/icons/img128.png"
 	},
 	"permissions": [
-		"storage",
 		"activeTab",
 		"input"
-	],
-	"input_components": [
-		{
-			"name": "Test IME",
-			"type": "ime",
-			"id": "test",
-			"description": "Test IME",
-			"language": "en-US",
-			"layouts": [
-				"us::eng"
-			]
-		}
 	]
 }

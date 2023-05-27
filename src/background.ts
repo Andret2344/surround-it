@@ -1,11 +1,11 @@
 import KeyPressEvent = JQuery.KeyPressEvent;
 
-export interface ParenthesisPair {
+export interface BracketPair {
 	readonly l: string;
 	readonly r: string;
 }
 
-const parentheses: ParenthesisPair[] = [
+const bracketPairs: BracketPair[] = [
 	{l: '(', r: ')'},
 	{l: '{', r: '}'},
 	{l: '<', r: '>'},
@@ -20,27 +20,26 @@ if ($ !== undefined) {
 		const element: HTMLInputElement | HTMLTextAreaElement = e.currentTarget;
 		const selectedText: string = getSelectedTextForInput(element);
 		if (selectedText) {
-			const index: number = parentheses.map((parenthesis: ParenthesisPair): string => parenthesis.l).indexOf(e.key);
+			const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(e.key);
 			if (index !== -1) {
 				e.preventDefault();
-				setSelectedTextForInput(element, parentheses[index]);
+				setSelectedTextForInput(element, bracketPairs[index]);
 			}
 		}
 	});
 
 	$(document).on('keypress', '[contenteditable]', function (e: KeyPressEvent<Document, undefined, HTMLElement, HTMLElement>) {
 		const element: HTMLElement = e.currentTarget;
-		const selectedTextForContentEditable = getSelectedTextForContentEditable(element);
-		if (selectedTextForContentEditable) {
-			const number: number = parentheses.map(p => p.l).indexOf(e.key);
-			if (number !== -1) {
-				const selector: HTMLElement | undefined = $(document).find(`*:contains('${selectedTextForContentEditable}'):not(:has(*))`).get()[0];
-				console.log(selector);
+		const selectedText = getSelectedTextForContentEditable(element);
+		if (selectedText) {
+			const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(e.key);
+			if (index !== -1) {
+				const selector: HTMLElement | undefined = $(document).find(`*:contains('${selectedText}'):not(:has(*))`).get()[0];
 				if (!selector) {
 					return;
 				}
 				e.preventDefault();
-				setSelectedTextForContentEditable(selector, parentheses[number]);
+				setSelectedTextForContentEditable(selector, bracketPairs[index]);
 			}
 		}
 	});
@@ -49,25 +48,21 @@ if ($ !== undefined) {
 		return window.getSelection()?.getRangeAt(0);
 	}
 
-	function setSelectedTextForContentEditable(input: HTMLElement, parenthesesPair: ParenthesisPair): void {
-		const selection = window.getSelection();
+	function setSelectedTextForContentEditable(input: HTMLElement, bracketPair: BracketPair): void {
+		const selection: Selection | null = window.getSelection();
 
 		if (selection) {
-			const range = selection.getRangeAt(0);
-			const selectedText = range.toString();
-			const wrappedText = parenthesesPair.l + selectedText + parenthesesPair.r;
+			const range: Range = selection.getRangeAt(0);
+			const selectedText: string = range.toString();
 
-			// Create a document fragment to hold the modified content
-			const fragment = document.createDocumentFragment();
-			const wrapperNode = document.createElement('span');
-			wrapperNode.textContent = wrappedText;
+			const fragment: DocumentFragment = document.createDocumentFragment();
+			const wrapperNode: HTMLElement = document.createElement('span');
+			wrapperNode.textContent = bracketPair.l + selectedText + bracketPair.r;
 			fragment.appendChild(wrapperNode);
 
-			// Replace the selected range with the modified content
 			range.deleteContents();
 			range.insertNode(fragment);
 
-			// Restore the selection
 			range.setStartAfter(wrapperNode.firstChild as Node);
 			range.setEndAfter(wrapperNode.lastChild as Node);
 			selection.removeAllRanges();
@@ -82,19 +77,16 @@ if ($ !== undefined) {
 		}
 		const start: number = range.startOffset;
 		const end: number = range.endOffset;
-		console.log("SURROUND-IT", start, end);
 		return element.innerText.substring(start, end);
 	}
 
-	function setSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement, parenthesesPair: ParenthesisPair): void {
+	function setSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement, bracketPair: BracketPair): void {
 		const start: number | null = input.selectionStart;
 		const end: number | null = input.selectionEnd;
 		if (start !== null && end !== null) {
-			const originalText = input.value;
-			const selectedText = originalText.substring(start, end);
-
-			input.value = originalText.substring(0, start) + parenthesesPair.l + selectedText + parenthesesPair.r + originalText.substring(end);
-
+			const originalText: string = input.value;
+			const selectedText: string = originalText.substring(start, end);
+			input.value = originalText.substring(0, start) + bracketPair.l + selectedText + bracketPair.r + originalText.substring(end);
 			input.setSelectionRange(start + 1, end + 1);
 		}
 	}
