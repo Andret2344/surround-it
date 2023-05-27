@@ -19,5 +19,7 @@ zip:
   stage: pack
   dependencies:
     - webpack
+  before_script:
+    - sudo apt-get -y install zip
   script:
     - zip -r surround-it.zip dist
