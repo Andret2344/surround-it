@@ -2,8 +2,8 @@
 	"manifest_version": 3,
 	"name": "Surround it",
 	"short_name": "Surround it",
-	"version": "0.1.4",
-	"description": "Simply wrap text in any brackets or parentheses",
+	"version": "0.2.0",
+	"description": "Simply wrap text in any brackets or parentheses.",
 	"action": {
 		"default_icon": {
 			"16": "icon/img16.png",

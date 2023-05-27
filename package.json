@@ -1,7 +1,7 @@
 {
 	"name": "surround-it",
-	"version": "1.0.0",
-	"description": "",
+	"version": "0.2.0",
+	"description": "Simply wrap text in any brackets or parentheses.",
 	"license": "CC-BY-SA-4.0",
 	"main": "src/background.ts",
 	"scripts": {
