@@ -18,6 +18,6 @@ webpack:
 zip:
   stage: pack
   dependencies:
-    - install
+    - webpack
   script:
     - zip -r surround-it.zip dist
