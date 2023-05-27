@@ -24,7 +24,7 @@ zip:
     - apt-get upgrade
     - apt-get -y install zip
   script:
-    - zip -r surround-it.zip dist
+    - zip -r surround-it.zip dist/*
   artifacts:
     paths:
       - surround-it.zip
