@@ -9,7 +9,7 @@ webpack:
   before_script:
     - yarn install --frozen-lockfile
   script:
-    - npm webpack
+    - npm build
   artifacts:
     paths:
       - dist
