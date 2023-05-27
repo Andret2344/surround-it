@@ -1,32 +1,35 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "Surround it",
 	"short_name": "Surround it",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "Simply wrap text in any brackets or parentheses",
-	"page_action": {
-		"default_popup": "popup.html",
+	"action": {
 		"default_icon": {
-			"16": "chrome/icon/img16.png",
-			"32": "chrome/icon/img32.png",
-			"48": "chrome/icon/img48.png",
-			"128": "chrome/icon/img128.png"
+			"16": "icon/img16.png",
+			"32": "icon/img32.png",
+			"48": "icon/img48.png",
+			"128": "icon/img128.png"
 		}
 	},
 	"content_scripts": [
 		{
-			"matches": ["<all_urls>"],
-			"js": ["jquery.min.js", "background.js"]
+			"matches": [
+				"<all_urls>"
+			],
+			"js": [
+				"libs/jquery.min.js",
+				"background.js"
+			]
 		}
 	],
 	"icons": {
-		"16": "chrome/icon/img16.png",
-		"32": "chrome/icon/img32.png",
-		"48": "chrome/icon/img48.png",
-		"128": "chrome/icon/img128.png"
+		"16": "icon/img16.png",
+		"32": "icon/img32.png",
+		"48": "icon/img48.png",
+		"128": "icon/img128.png"
 	},
 	"permissions": [
-		"storage",
 		"activeTab",
 		"input"
 	],

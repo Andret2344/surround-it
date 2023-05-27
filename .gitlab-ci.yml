@@ -1,0 +1,23 @@
+image: node:lts
+
+stages:
+  - build
+  - pack
+
+webpack:
+  stage: build
+  before_script:
+    - yarn install --frozen-lockfile
+  script:
+    - npm webpack
+  artifacts:
+    paths:
+      - dist
+    untracked: true
+
+zip:
+  stage: pack
+  dependencies:
+    - install
+  script:
+    - zip -r surround-it.zip dist
