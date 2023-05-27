@@ -30,7 +30,7 @@ module.exports = {
 			patterns: [{ from: 'icon', to: 'icon' }]
 		}),
 		new CopyWebpackPlugin({
-			patterns: [{ from: 'libs', to: 'libs' }]
+			patterns: [{ from: 'node_modules/jquery/dist/jquery.min.js', to: 'libs/jquery.min.js' }]
 		})
 	]
 };

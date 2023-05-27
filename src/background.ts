@@ -34,7 +34,8 @@ if ($ !== undefined) {
 		if (selectedTextForContentEditable) {
 			const number: number = parentheses.map(p => p.l).indexOf(e.key);
 			if (number !== -1) {
-				const selector: HTMLElement | undefined = element.querySelector<HTMLElement>(`:contains('${selectedTextForContentEditable}'):not(:has(*))`) || undefined;
+				const selector: HTMLElement | undefined = $(document).find(`*:contains('${selectedTextForContentEditable}'):not(:has(*))`).get()[0];
+				console.log(selector);
 				if (!selector) {
 					return;
 				}
@@ -81,6 +82,7 @@ if ($ !== undefined) {
 		}
 		const start: number = range.startOffset;
 		const end: number = range.endOffset;
+		console.log("SURROUND-IT", start, end);
 		return element.innerText.substring(start, end);
 	}
 
@@ -93,17 +95,14 @@ if ($ !== undefined) {
 
 			input.value = originalText.substring(0, start) + parenthesesPair.l + selectedText + parenthesesPair.r + originalText.substring(end);
 
-			// Restore the selection
-			const newSelectionStart = start + parenthesesPair.l.length;
-			const newSelectionEnd = end + parenthesesPair.l.length + parenthesesPair.r.length;
-			input.setSelectionRange(newSelectionStart, newSelectionEnd);
+			input.setSelectionRange(start + 1, end + 1);
 		}
 	}
 
 	function getSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement): string {
-		const start: number | undefined = input.selectionStart || undefined;
-		const end: number | undefined = input.selectionEnd || undefined;
-		if (!start || !end) {
+		const start: number | null = input.selectionStart;
+		const end: number | null = input.selectionEnd;
+		if (start === null || end === null) {
 			return '';
 		}
 		return input.value.substring(start, end);

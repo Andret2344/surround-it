@@ -30,6 +30,7 @@
 		"128": "icon/img128.png"
 	},
 	"permissions": [
+		"storage",
 		"activeTab",
 		"input"
 	],
