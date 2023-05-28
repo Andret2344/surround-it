@@ -8,7 +8,9 @@
 		{
 			"matches": [
 				"https://*/*",
-				"http://*/*"
+				"http://*/*",
+                "https://*/",
+                "http://*/"
 			],
 			"js": [
 				"libs/jquery.min.js",
@@ -21,9 +23,5 @@
 		"32": "assets/icons/img32.png",
 		"48": "assets/icons/img48.png",
 		"128": "assets/icons/img128.png"
-	},
-	"permissions": [
-		"activeTab",
-		"input"
-	]
+	}
 }

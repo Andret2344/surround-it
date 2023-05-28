@@ -30,7 +30,7 @@ if ($ !== undefined) {
 
 	$(document).on('keypress', '[contenteditable]', function (e: KeyPressEvent<Document, undefined, HTMLElement, HTMLElement>) {
 		const element: HTMLElement = e.currentTarget;
-		const selectedText = getSelectedTextForContentEditable(element);
+		const selectedText: string = getSelectedTextForContentEditable(element);
 		if (selectedText) {
 			const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(e.key);
 			if (index !== -1) {
