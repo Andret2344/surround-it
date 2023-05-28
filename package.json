@@ -3,11 +3,9 @@
 	"version": "0.2.0",
 	"description": "Simply wrap text in any brackets or parentheses.",
 	"license": "CC-BY-SA-4.0",
-	"main": "src/background.ts",
 	"scripts": {
 		"build": "webpack --config webpack/webpack.config.js"
 	},
-	"keywords": [],
 	"author": {
 		"email": "andret2344@gmail.com",
 		"name": "Andrzej \"Andret\" Chmiel",
