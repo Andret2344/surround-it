@@ -1,6 +1,6 @@
 import KeyPressEvent = JQuery.KeyPressEvent;
 
-export interface BracketPair {
+interface BracketPair {
 	readonly l: string;
 	readonly r: string;
 }
@@ -28,7 +28,7 @@ if ($ !== undefined) {
 		}
 	});
 
-	$(document).on('keypress', '[contenteditable]', function (e: KeyPressEvent<Document, undefined, HTMLElement, HTMLElement>) {
+	$(document).on('keypress', '[contenteditable]', (e: KeyPressEvent<Document, undefined, HTMLElement, HTMLElement>): void => {
 		const element: HTMLElement = e.currentTarget;
 		const selectedText: string = getSelectedTextForContentEditable(element);
 		if (selectedText) {
