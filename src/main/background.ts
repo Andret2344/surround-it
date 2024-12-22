@@ -34,12 +34,12 @@ if ($ !== undefined) {
 		if (selectedText) {
 			const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(e.key);
 			if (index !== -1) {
-				const selector: HTMLElement | undefined = $(document).find(`*:contains('${selectedText}'):not(:has(*))`).get()[0];
+				const selector: HTMLElement | undefined = $(element).find(`*:contains('${selectedText}'):not(:has(*))`).get()[0];
 				if (!selector) {
 					return;
 				}
 				e.preventDefault();
-				setSelectedTextForContentEditable(selector, bracketPairs[index]);
+				setSelectedTextForContentEditable(bracketPairs[index]);
 			}
 		}
 	});
@@ -48,25 +48,32 @@ if ($ !== undefined) {
 		return window.getSelection()?.getRangeAt(0);
 	}
 
-	function setSelectedTextForContentEditable(input: HTMLElement, bracketPair: BracketPair): void {
+	function setSelectedTextForContentEditable(bracketPair: BracketPair): void {
 		const selection: Selection | null = window.getSelection();
 
 		if (selection) {
 			const range: Range = selection.getRangeAt(0);
 			const selectedText: string = range.toString();
 
-			const fragment: DocumentFragment = document.createDocumentFragment();
-			const wrapperNode: HTMLElement = document.createElement('span');
-			wrapperNode.textContent = bracketPair.l + selectedText + bracketPair.r;
-			fragment.appendChild(wrapperNode);
-
 			range.deleteContents();
-			range.insertNode(fragment);
+			const textNode: Text = document.createTextNode(bracketPair.l + selectedText + bracketPair.r);
+			range.insertNode(textNode);
 
-			range.setStartAfter(wrapperNode.firstChild as Node);
-			range.setEndAfter(wrapperNode.lastChild as Node);
+			const inputEvent = new InputEvent('input', {
+				data: textNode.textContent,
+				inputType: "insertText",
+				bubbles: true,
+				cancelable: true,
+				composed: true
+			});
+
+			range.startContainer.parentElement?.dispatchEvent(inputEvent);
+
+			const newRange = document.createRange();
+			newRange.setStart(textNode, 1);
+			newRange.setEnd(textNode, selectedText.length + 1);
 			selection.removeAllRanges();
-			selection.addRange(range);
+			selection.addRange(newRange);
 		}
 	}
 

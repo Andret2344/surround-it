@@ -2,16 +2,13 @@
 	"manifest_version": 3,
 	"name": "Surround it!",
 	"short_name": "Surround it",
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"description": "Simply wrap text in any brackets or parentheses.",
 	"author": "andret2344@gmail.com",
 	"content_scripts": [
 		{
 			"matches": [
-				"https://*/*",
-				"http://*/*",
-				"https://*/",
-				"http://*/"
+				"*://*/*"
 			],
 			"js": [
 				"libs/jquery.min.js",

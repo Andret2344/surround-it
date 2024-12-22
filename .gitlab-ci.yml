@@ -4,12 +4,22 @@ stages:
   - build
   - pack
 
+yarn:
+  stage: build
+  script:
+    - yarn install --frozen-lockfile
+  artifacts:
+    paths:
+      - node_modules
+    untracked: true
+
 webpack:
   stage: build
-  before_script:
-    - yarn install --frozen-lockfile
+  dependencies:
+    - yarn
   script:
-    - yarn run build
+    - yarn run build:chromium
+    - yarn run build:firefox
   artifacts:
     paths:
       - dist
@@ -24,7 +34,9 @@ zip:
     - apt-get upgrade
     - apt-get -y install zip
   script:
-    - cd dist && zip -r ../surround-it.zip .
+    - cd dist
+    - zip -r ../surround-it-chromium.zip chromium
+    - zip -r ../surround-it-firefox.zip firefox
   artifacts:
     paths:
-      - surround-it.zip
+      - surround-it-*.zip
