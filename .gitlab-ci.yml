@@ -25,8 +25,9 @@ zip:
     - apt-get upgrade
     - apt-get -y install zip
   script:
-    - cd dist
-    - zip -r ../surround-it-chromium.zip chromium
+    - cd dist/chromium
+    - zip -r ../surround-it-chromium.zip .
+    - cd ../firefox
     - zip -r ../surround-it-firefox.zip firefox
   artifacts:
     paths:
