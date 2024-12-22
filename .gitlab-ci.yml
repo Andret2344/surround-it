@@ -27,7 +27,7 @@ zip:
   script:
     - cd dist/chromium
     - zip -r ../surround-it-chromium.zip .
-    - cd firefox
+    - cd ../firefox
     - zip -r ../surround-it-firefox.zip .
     - cd ..
     - apt install tree
