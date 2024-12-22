@@ -4,19 +4,12 @@ stages:
   - build
   - pack
 
-yarn:
-  stage: build
-  script:
-    - yarn install --frozen-lockfile
-  artifacts:
-    paths:
-      - node_modules
-    untracked: true
-
 webpack:
   stage: build
   dependencies:
     - yarn
+  before_script:
+    - yarn install --frozen-lockfile
   script:
     - yarn run build:chromium
     - yarn run build:firefox
