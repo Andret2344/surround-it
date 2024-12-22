@@ -6,8 +6,6 @@ stages:
 
 webpack:
   stage: build
-  dependencies:
-    - yarn
   before_script:
     - yarn install --frozen-lockfile
   script:
