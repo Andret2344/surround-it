@@ -28,7 +28,7 @@ zip:
     - cd dist/chromium
     - zip -r ../surround-it-chromium.zip .
     - cd ../firefox
-    - zip -r ../surround-it-firefox.zip firefox
+    - zip -r ../surround-it-firefox.zip .
   artifacts:
     paths:
       - surround-it-*.zip
