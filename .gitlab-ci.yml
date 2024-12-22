@@ -29,9 +29,6 @@ zip:
     - zip -r ../surround-it-chromium.zip .
     - cd ../firefox
     - zip -r ../surround-it-firefox.zip .
-    - cd ..
-    - apt install tree
-    - tree
   artifacts:
     paths:
-      - chromium/surround-it-chromium.zip
+      - dist/surround-it-*.zip
