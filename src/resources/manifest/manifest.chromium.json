@@ -2,9 +2,18 @@
 	"manifest_version": 3,
 	"name": "Surround it!",
 	"short_name": "Surround it",
-	"version": "0.2.1",
+	"version": "0.3.0",
 	"description": "Simply wrap text in any brackets or parentheses.",
 	"author": "andret2344@gmail.com",
+	"action": {
+		"default_popup": "popup.html"
+	},
+	"permissions": [
+		"storage"
+	],
+	"host_permissions": [
+		"*://*/*"
+	],
 	"content_scripts": [
 		{
 			"matches": [

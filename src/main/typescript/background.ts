@@ -1,4 +1,5 @@
 import KeyPressEvent = JQuery.KeyPressEvent;
+import {runWithActive} from './storage';
 
 interface BracketPair {
 	readonly l: string;
@@ -22,8 +23,12 @@ if ($ !== undefined) {
 		if (selectedText) {
 			const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(e.key);
 			if (index !== -1) {
-				e.preventDefault();
-				setSelectedTextForInput(element, bracketPairs[index]);
+				e.originalEvent?.preventDefault();
+				runWithActive((): void => {
+					setSelectedTextForInput(element, bracketPairs[index]);
+				}, () => {
+					insertTextForInput(element, e.key);
+				});
 			}
 		}
 	});
@@ -38,8 +43,12 @@ if ($ !== undefined) {
 				if (!selector) {
 					return;
 				}
-				e.preventDefault();
-				setSelectedTextForContentEditable(bracketPairs[index]);
+				e.originalEvent?.preventDefault();
+				runWithActive((): void => {
+					setSelectedTextForContentEditable(bracketPairs[index]);
+				}, () => {
+					insertTextForContentEditable(e.key);
+				});
 			}
 		}
 	});
@@ -61,7 +70,7 @@ if ($ !== undefined) {
 
 			const inputEvent = new InputEvent('input', {
 				data: textNode.textContent,
-				inputType: "insertText",
+				inputType: 'insertText',
 				bubbles: true,
 				cancelable: true,
 				composed: true
@@ -75,6 +84,40 @@ if ($ !== undefined) {
 			selection.removeAllRanges();
 			selection.addRange(newRange);
 		}
+	}
+
+	function insertTextForContentEditable(text: string): void {
+		// Pobieramy aktualne zaznaczenie
+		const selection = window.getSelection();
+
+		if (selection && selection.rangeCount > 0) {
+			// Pobieramy bieżący zakres (Range)
+			const range = selection.getRangeAt(0);
+
+			// Tworzymy nowy węzeł tekstowy z tekstem, który chcemy wstawić
+			const textNode = document.createTextNode(text);
+
+			// Wstawiamy tekst w miejscu zaznaczenia
+			range.deleteContents(); // Usuwamy zaznaczenie
+			range.insertNode(textNode); // Wstawiamy nowy tekst
+
+			// Ustawiamy kursor po wstawionym tekście (po węźle tekstowym)
+			range.setStartAfter(textNode);
+			range.setEndAfter(textNode);
+
+			// Przenosimy kursor po wstawionym tekście
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
+	}
+
+	function insertTextForInput(element: HTMLInputElement | HTMLTextAreaElement, text: string): void {
+		debugger;
+		console.log('NOW');
+		const startPos: number = element.selectionStart ?? 0;
+		const endPos: number = element.selectionEnd ?? (element.textContent?.length ?? 0) - 1;
+		element.setRangeText(text, startPos, endPos, 'end');
+		element.selectionStart = element.selectionEnd = startPos + text.length;
 	}
 
 	function getSelectedTextForContentEditable(element: HTMLElement): string {

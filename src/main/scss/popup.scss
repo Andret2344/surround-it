@@ -1,0 +1,17 @@
+body {
+	background: #000000;
+
+	* {
+		color: #FFFFFF;
+	}
+}
+
+.power {
+	font-size: 150px;
+	cursor: pointer;
+	user-select: none;
+
+	&.active {
+		color: #0000FF;
+	}
+}
