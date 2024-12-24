@@ -40,9 +40,8 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	if (index === -1) {
 		return;
 	}
-	const selector: Element | undefined = Array.from(target.querySelectorAll(`*:not(:has(*))`))
-		.find((el: Element): boolean => el.textContent?.includes(selectedText) ?? false);
-	if (!selector) {
+	const element: Element | undefined = findInWith(target, selectedText);
+	if (!element) {
 		return;
 	}
 	event.preventDefault();
@@ -100,6 +99,8 @@ function getSelectedTextForContentEditable(element: HTMLElement): string {
 
 function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: BracketPair): void {
 	const selection: Selection | null = document.getSelection();
+	const anchorOffset: number = selection?.anchorOffset ?? 0;
+	const focusOffset: number = selection?.focusOffset ?? 0;
 
 	if (selection) {
 		const range: Range = selection.getRangeAt(0);
@@ -107,6 +108,24 @@ function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: Br
 
 		range.deleteContents();
 		const textNode: Text = document.createTextNode(bracketPair.l + selectedText + bracketPair.r);
+
+		function handleInputEvent(e: Event): void {
+			element.removeEventListener('input', handleInputEvent);
+			setTimeout((): void => {
+				const data: string | null = (e as InputEvent).data;
+				const found: Element | undefined = findInWith(e.target as HTMLElement, selectedText);
+				if (data && found) {
+					const newRange: Range = document.createRange();
+					console.log(anchorOffset, focusOffset);
+					newRange.setStart(found.firstChild!, Math.min(anchorOffset, focusOffset) + 1);
+					newRange.setEnd(found.firstChild!, Math.max(anchorOffset, focusOffset) + 1);
+					selection?.removeAllRanges();
+					selection?.addRange(newRange);
+				}
+			}, 1);
+		}
+
+		element.addEventListener('input', handleInputEvent);
 
 		const inputEvent = new InputEvent('input', {
 			data: textNode.textContent,
@@ -117,12 +136,6 @@ function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: Br
 		});
 
 		element.dispatchEvent(inputEvent);
-
-		const newRange = document.createRange();
-		newRange.setStart(textNode, 1);
-		newRange.setEnd(textNode, selectedText.length + 1);
-		selection.removeAllRanges();
-		selection.addRange(newRange);
 	}
 }
 
@@ -139,4 +152,13 @@ function insertTextForContentEditable(text: string): void {
 		selection.removeAllRanges();
 		selection.addRange(range);
 	}
+}
+
+///////////////////////
+//     UTILITIES     //
+///////////////////////
+
+function findInWith(target: HTMLElement, selectedText: string) {
+	return Array.from(target.querySelectorAll(`*:not(:has(*))`))
+		.find((el: Element): boolean => el.textContent?.includes(selectedText) ?? false);
 }
