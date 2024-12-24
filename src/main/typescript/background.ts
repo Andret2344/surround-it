@@ -116,7 +116,6 @@ function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: Br
 				const found: Element | undefined = findInWith(e.target as HTMLElement, selectedText);
 				if (data && found) {
 					const newRange: Range = document.createRange();
-					console.log(anchorOffset, focusOffset);
 					newRange.setStart(found.firstChild!, Math.min(anchorOffset, focusOffset) + 1);
 					newRange.setEnd(found.firstChild!, Math.max(anchorOffset, focusOffset) + 1);
 					selection?.removeAllRanges();
