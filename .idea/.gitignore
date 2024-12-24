@@ -1,0 +1,16 @@
+/dataSources/
+/httpRequests/
+/shelf/
+/sonarlint/
+
+/dataSources.local.xml
+/discord.xml
+/encodings.xml
+/git_toolbox_blame.xml
+/git_toolbox_prj.xml
+/jsonSchemas.xml
+/modules.xml
+/php.xml
+/surround-it.iml
+/webResources.xml
+/workspace.xml

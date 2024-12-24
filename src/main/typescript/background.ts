@@ -1,5 +1,5 @@
-import {runWithActive} from './storage';
-import {BracketPair, getAllBracketPairs} from './BracketPair';
+import {runWithActive} from './service/StorageService';
+import {BracketPair, getAllBracketPairs} from './entity/BracketPair';
 
 //////////////////////
 //     LISTENER     //
@@ -78,8 +78,10 @@ function setSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement, 
 function insertTextForInput(element: HTMLInputElement | HTMLTextAreaElement, text: string): void {
 	const startPos: number = element.selectionStart ?? 0;
 	const endPos: number = element.selectionEnd ?? (element.textContent?.length ?? 0) - 1;
+	const selectionEnd: number = startPos + text.length;
 	element.setRangeText(text, startPos, endPos, 'end');
-	element.selectionStart = element.selectionEnd = startPos + text.length;
+	element.selectionStart = selectionEnd;
+	element.selectionEnd = selectionEnd;
 }
 
 //////////////////////

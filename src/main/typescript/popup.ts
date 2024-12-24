@@ -1,20 +1,12 @@
 import '../scss/popup.scss';
-import {runWithActive, setActive} from './storage';
+import {runWithActive, setActive} from './service/StorageService';
 
 const powerButton: Element | null = document.querySelector('#power-button');
 if (powerButton) {
-	let active: boolean = false;
-	runWithActive((): void => {
-		active = true;
-		powerButton.classList.add('active');
-	}, () => active = false);
+	runWithActive((): void => powerButton.classList.add('active'));
 
-	powerButton.addEventListener('click', (): void => {
-		if (active) {
-			setActive(false, () => powerButton.classList.remove('active'));
-		} else {
-			setActive(true, () => powerButton.classList.add('active'));
-		}
-		active = !active;
-	});
+	powerButton.addEventListener('click', (): void =>
+		runWithActive(
+			(): void => setActive(false, (): void => powerButton.classList.remove('active')),
+			(): void => setActive(true, (): void => powerButton.classList.add('active'))));
 }

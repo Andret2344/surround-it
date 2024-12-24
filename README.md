@@ -1,3 +1,4 @@
-# Surround it v0.2.0
+# Surround it v0.3.1
 
-Available for download [here](https://chrome.google.com/webstore/detail/cjelblbjilfobifendknkljagdndaipd).
+Available for download for [chrome](https://chrome.google.com/webstore/detail/cjelblbjilfobifendknkljagdndaipd)
+and [firefox](https://addons.mozilla.org/en-US/firefox/addon/surround-it/)
