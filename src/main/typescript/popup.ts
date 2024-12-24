@@ -1,23 +1,19 @@
 import '../scss/popup.scss';
-import 'jquery';
 import {runWithActive, setActive} from './storage';
 
-if ($ !== undefined) {
-	let active = false;
+const powerButton: Element | null = document.querySelector('#power-button');
+if (powerButton) {
+	let active: boolean = false;
 	runWithActive((): void => {
 		active = true;
-		$('#power-button').addClass('active');
+		powerButton.classList.add('active');
 	}, () => active = false);
 
-	$('#power-button').on('click', (): void => {
+	powerButton.addEventListener('click', (): void => {
 		if (active) {
-			setActive(false, () => {
-				$('#power-button').removeClass('active');
-			});
+			setActive(false, () => powerButton.classList.remove('active'));
 		} else {
-			setActive(true, () => {
-				$('#power-button').addClass('active');
-			});
+			setActive(true, () => powerButton.classList.add('active'));
 		}
 		active = !active;
 	});

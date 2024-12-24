@@ -1,7 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
 	mode: 'production',
@@ -31,14 +30,9 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new webpack.ProvidePlugin({
-			$: 'jquery',
-			jQuery: 'jquery'
-		}),
 		new CopyWebpackPlugin({
 			patterns: [
 				{from: 'src/resources/assets', to: 'assets'},
-				{from: require.resolve('jquery'), to: 'libs/jquery.min.js'},
 				{from: require.resolve('webextension-polyfill'), to: 'webextension-polyfill.js'}
 			]
 		}),
