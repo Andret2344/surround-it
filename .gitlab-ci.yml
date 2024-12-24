@@ -32,3 +32,4 @@ zip:
   artifacts:
     paths:
       - dist/surround-it-*.zip
+  when: manual

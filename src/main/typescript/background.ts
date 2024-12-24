@@ -1,19 +1,9 @@
 import {runWithActive} from './storage';
+import {BracketPair, bracketPairs} from './BrackerPair';
 
-interface BracketPair {
-	readonly l: string;
-	readonly r: string;
-}
-
-const bracketPairs: BracketPair[] = [
-	{l: '(', r: ')'},
-	{l: '{', r: '}'},
-	{l: '<', r: '>'},
-	{l: '[', r: ']'},
-	{l: '\'', r: '\''},
-	{l: '"', r: '"'},
-	{l: '`', r: '`'}
-];
+//////////////////////
+//     LISTENER     //
+//////////////////////
 
 document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	const target = event.target as HTMLInputElement | HTMLTextAreaElement;
@@ -27,7 +17,7 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	if (!selectedText) {
 		return;
 	}
-	const index = bracketPairs.map(pair => pair.l).indexOf(event.key);
+	const index = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(event.key);
 	if (index === -1) {
 		return;
 	}
@@ -57,16 +47,57 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	}
 	event.preventDefault();
 	runWithActive(
-		(): void => setSelectedTextForContentEditable(bracketPairs[index]),
+		(): void => setSelectedTextForContentEditable(target, bracketPairs[index]),
 		(): void => insertTextForContentEditable(event.key));
 });
 
-function getSelectionRange(): Range | undefined {
-	return window.getSelection()?.getRangeAt(0);
+//////////////////////
+// INPUT & TEXTAREA //
+//////////////////////
+
+function getSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement): string {
+	const start: number | null = input.selectionStart;
+	const end: number | null = input.selectionEnd;
+	if (start === null || end === null) {
+		return '';
+	}
+	return input.value.substring(start, end);
 }
 
-function setSelectedTextForContentEditable(bracketPair: BracketPair): void {
-	const selection: Selection | null = window.getSelection();
+function setSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement, bracketPair: BracketPair): void {
+	const start: number | null = input.selectionStart;
+	const end: number | null = input.selectionEnd;
+	if (start !== null && end !== null) {
+		const originalText: string = input.value;
+		const selectedText: string = originalText.substring(start, end);
+		input.value = originalText.substring(0, start) + bracketPair.l + selectedText + bracketPair.r + originalText.substring(end);
+		input.setSelectionRange(start + 1, end + 1);
+	}
+}
+
+function insertTextForInput(element: HTMLInputElement | HTMLTextAreaElement, text: string): void {
+	const startPos: number = element.selectionStart ?? 0;
+	const endPos: number = element.selectionEnd ?? (element.textContent?.length ?? 0) - 1;
+	element.setRangeText(text, startPos, endPos, 'end');
+	element.selectionStart = element.selectionEnd = startPos + text.length;
+}
+
+//////////////////////
+// CONTENT EDITABLE //
+//////////////////////
+
+function getSelectedTextForContentEditable(element: HTMLElement): string {
+	const range: Range | undefined = window.getSelection()?.getRangeAt(0);
+	if (!range || range.startContainer !== range.endContainer) {
+		return '';
+	}
+	const start: number = range.startOffset;
+	const end: number = range.endOffset;
+	return element.innerText.substring(start, end);
+}
+
+function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: BracketPair): void {
+	const selection: Selection | null = document.getSelection();
 
 	if (selection) {
 		const range: Range = selection.getRangeAt(0);
@@ -74,7 +105,6 @@ function setSelectedTextForContentEditable(bracketPair: BracketPair): void {
 
 		range.deleteContents();
 		const textNode: Text = document.createTextNode(bracketPair.l + selectedText + bracketPair.r);
-		range.insertNode(textNode);
 
 		const inputEvent = new InputEvent('input', {
 			data: textNode.textContent,
@@ -84,7 +114,7 @@ function setSelectedTextForContentEditable(bracketPair: BracketPair): void {
 			composed: true
 		});
 
-		range.startContainer.parentElement?.dispatchEvent(inputEvent);
+		element.dispatchEvent(inputEvent);
 
 		const newRange = document.createRange();
 		newRange.setStart(textNode, 1);
@@ -107,41 +137,4 @@ function insertTextForContentEditable(text: string): void {
 		selection.removeAllRanges();
 		selection.addRange(range);
 	}
-}
-
-function insertTextForInput(element: HTMLInputElement | HTMLTextAreaElement, text: string): void {
-	const startPos: number = element.selectionStart ?? 0;
-	const endPos: number = element.selectionEnd ?? (element.textContent?.length ?? 0) - 1;
-	element.setRangeText(text, startPos, endPos, 'end');
-	element.selectionStart = element.selectionEnd = startPos + text.length;
-}
-
-function getSelectedTextForContentEditable(element: HTMLElement): string {
-	const range: Range | undefined = getSelectionRange();
-	if (!range || range.startContainer !== range.endContainer) {
-		return '';
-	}
-	const start: number = range.startOffset;
-	const end: number = range.endOffset;
-	return element.innerText.substring(start, end);
-}
-
-function setSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement, bracketPair: BracketPair): void {
-	const start: number | null = input.selectionStart;
-	const end: number | null = input.selectionEnd;
-	if (start !== null && end !== null) {
-		const originalText: string = input.value;
-		const selectedText: string = originalText.substring(start, end);
-		input.value = originalText.substring(0, start) + bracketPair.l + selectedText + bracketPair.r + originalText.substring(end);
-		input.setSelectionRange(start + 1, end + 1);
-	}
-}
-
-function getSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement): string {
-	const start: number | null = input.selectionStart;
-	const end: number | null = input.selectionEnd;
-	if (start === null || end === null) {
-		return '';
-	}
-	return input.value.substring(start, end);
 }
