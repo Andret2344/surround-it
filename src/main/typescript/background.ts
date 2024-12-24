@@ -1,5 +1,5 @@
 import {runWithActive} from './storage';
-import {BracketPair, bracketPairs} from './BrackerPair';
+import {BracketPair, getAllBracketPairs} from './BracketPair';
 
 //////////////////////
 //     LISTENER     //
@@ -17,13 +17,13 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	if (!selectedText) {
 		return;
 	}
-	const index = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(event.key);
+	const index = getAllBracketPairs().map((pair: BracketPair): string => pair.l).indexOf(event.key);
 	if (index === -1) {
 		return;
 	}
 	event.preventDefault();
 	runWithActive(
-		(): void => setSelectedTextForInput(target, bracketPairs[index]),
+		(): void => setSelectedTextForInput(target, getAllBracketPairs()[index]),
 		(): void => insertTextForInput(target, event.key));
 });
 
@@ -36,7 +36,7 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	if (!selectedText) {
 		return;
 	}
-	const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(event.key);
+	const index: number = getAllBracketPairs().map((pair: BracketPair): string => pair.l).indexOf(event.key);
 	if (index === -1) {
 		return;
 	}
@@ -47,7 +47,7 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	}
 	event.preventDefault();
 	runWithActive(
-		(): void => setSelectedTextForContentEditable(target, bracketPairs[index]),
+		(): void => setSelectedTextForContentEditable(target, getAllBracketPairs()[index]),
 		(): void => insertTextForContentEditable(event.key));
 });
 
