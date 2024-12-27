@@ -21,17 +21,17 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	loadBracketPairs().then((bracketPairs: BracketPair[]): void => {
 		const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(event.key);
 		if (index === -1) {
-			insertTextForInput(target, event.key)
+			insertTextForInput(target, event.key);
 			return;
 		}
 		if (!bracketPairs[index].active) {
-			insertTextForInput(target, event.key)
+			insertTextForInput(target, event.key);
 			return;
 		}
 		runWithActive(
 			(): void => setSelectedTextForInput(target, bracketPairs[index]),
 			(): void => insertTextForInput(target, event.key));
-	})
+	});
 });
 
 document.addEventListener('keypress', (event: KeyboardEvent): void => {
@@ -51,17 +51,17 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 	loadBracketPairs().then((bracketPairs: BracketPair[]) => {
 		const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(event.key);
 		if (index === -1) {
-			insertTextForContentEditable(event.key)
+			insertTextForContentEditable(element, event.key);
 			return;
 		}
 		if (!bracketPairs[index].active) {
-			insertTextForContentEditable(event.key)
+			insertTextForContentEditable(element, event.key);
 			return;
 		}
 		runWithActive(
 			(): void => setSelectedTextForContentEditable(target, bracketPairs[index]),
-			(): void => insertTextForContentEditable(event.key));
-	})
+			(): void => insertTextForContentEditable(element, event.key));
+	});
 });
 
 //////////////////////
@@ -152,18 +152,23 @@ function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: Br
 	}
 }
 
-function insertTextForContentEditable(text: string): void {
+function insertTextForContentEditable(element: Element, text: string): void {
 	const selection: Selection | null = window.getSelection();
 	if (selection && selection.rangeCount > 0) {
 		const range: Range = selection.getRangeAt(0);
 		const textNode: Text = document.createTextNode(text);
 
 		range.deleteContents();
-		range.insertNode(textNode);
-		range.setStartAfter(textNode);
-		range.setEndAfter(textNode);
-		selection.removeAllRanges();
-		selection.addRange(range);
+
+		const inputEvent = new InputEvent('input', {
+			data: textNode.textContent,
+			inputType: 'insertText',
+			bubbles: true,
+			cancelable: true,
+			composed: true
+		});
+
+		element.dispatchEvent(inputEvent);
 	}
 }
 

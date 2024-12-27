@@ -75,9 +75,11 @@ document.querySelector('.add-submit')?.addEventListener('click', (): void => {
 		active: true
 	};
 	addElement(bracketPair, currentBrackets.length);
-	addLElement.value = '';
-	addRElement.value = '';
-	document.querySelector('.add-result')?.firstChild?.remove();
+	saveBracketPairs(currentBrackets).then((): void => {
+		addLElement.value = '';
+		addRElement.value = '';
+		document.querySelector('.add-result')?.firstChild?.remove();
+	});
 });
 
 function restoreOptions(): void {
