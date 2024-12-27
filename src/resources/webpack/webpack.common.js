@@ -6,7 +6,8 @@ module.exports = {
 	mode: 'production',
 	entry: {
 		background: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'background.ts'),
-		popup: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'popup.ts')
+		popup: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'popup.ts'),
+		options: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'options.ts')
 	},
 	devtool: 'inline-source-map',
 	resolve: {
@@ -41,6 +42,12 @@ module.exports = {
 			filename: 'popup.html',
 			inject: 'body',
 			chunks: ['popup'],
+		}),
+		new HtmlWebpackPlugin({
+			template: 'src/main/html/options.html',
+			filename: 'options.html',
+			inject: 'body',
+			chunks: ['options'],
 		})
 	]
 };
