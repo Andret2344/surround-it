@@ -1,3 +1,8 @@
+$blue: #00b7ff;
+$dark: #242421;
+$dark-light: #3b3b36;
+$white: rgb(233, 233, 233);
+
 *,
 *::before,
 *::after {
@@ -5,11 +10,6 @@
 	margin: 0;
 	padding: 0;
 }
-
-$blue: #00b7ff;
-$dark: #242421;
-$dark-light: #3b3b36;
-$white: rgb(233, 233, 233);
 
 html {
 	font-size: 62.5%;
@@ -98,19 +98,24 @@ body {
 			flex-direction: column;
 			padding: 0.5em 0;
 
+			label {
+				display: none;
+			}
+
 			.add-input {
 				border: none;
 				background: transparent;
-				border-bottom: 2px solid $blue;
 				text-decoration: none;
 				text-align: center;
 				color: $white;
 				font-size: 1.9rem;
+				transition: ease-in 0.2s;
+				outline: none;
+				caret-color: $blue;
 
-				&:focus-visible {
-					outline: none;
-					border: 2px solid $blue;
-					caret-color: $blue;
+				&:focus,
+				&:hover {
+					box-shadow: 0 1px 0 $blue;
 				}
 			}
 
@@ -124,34 +129,18 @@ body {
 
 			.add-submit {
 				display: inline-block;
-				position: relative;
 				padding: 0.5em 1em;
 				text-transform: uppercase;
+				font-weight: 600;
 				border: 2px solid $blue;
-				color: $white;
-				background-color: $dark;
+				color: $dark;
+				background-color: $blue;
 				border-radius: 8px;
 				cursor: pointer;
 				transition: 0.3s;
-				z-index: 1;
 
-				&:before {
-					position: absolute;
-					content: '';
-					background-color: $white;
-					border-radius: 5px;
-					left: 0;
-					bottom: 0;
-					height: 100%;
-					width: 0;
-					z-index: -1;
-					transition: 0.3s;
-				}
-
-				&:hover:before,
 				&:hover {
-					width: 100%;
-					color: $dark;
+					background-color: $white;
 				}
 			}
 		}

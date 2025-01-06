@@ -3,55 +3,76 @@
 
 <head>
 	<meta charset='UTF-8'>
-	<meta name='viewport' content='width=device-width, initial-scale=1' />
+	<meta
+			name='viewport'
+			content='width=device-width, initial-scale=1'
+	/>
 	<title>Surround it!</title>
 </head>
 
 <body>
-	<header>
-		<h1>Surround <span class="word-color">it</span>!</h1>
-		<p>Simply wrap text in any brackets or parentheses.</p>
-	</header>
+<header>
+	<h1>Surround <span class='word-color'>it</span>!</h1>
+	<p>Simply wrap texts in any quotation marks, brackets, parentheses or any characters of your choice.</p>
+</header>
 
-	<main>
-		<table class="table-main">
-			<thead>
-				<tr>
-					<th>left</th>
-					<th>right</th>
-					<th>example</th>
-					<th>active</th>
-					<th>actions</th>
-				</tr>
-			</thead>
-			<tbody id='tbody'>
-			</tbody>
-		</table>
+<main>
+	<table class='table-main'>
+		<thead>
+		<tr>
+			<th>left</th>
+			<th>right</th>
+			<th>example</th>
+			<th>active</th>
+			<th>actions</th>
+		</tr>
+		</thead>
+		<tbody id='tbody'>
+		</tbody>
+	</table>
 
-		<table class="table-add-item">
-			<thead>
-				<tr>
-					<th>Type here your <span class="word-color">brackets</span>!</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<input size='2' class='add-input add-l' maxlength='1' placeholder='<' />
-					</td>
-					<td>
-						<input size='2' class='add-input add-r' maxlength='1' placeholder='>' />
-					</td>
-					<td>
-						<button type='submit' class='add-submit'>submit</button>
-					</td>
-					<td>
-						<pre class='add-result text-center'></pre>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</main>
+	<table class='table-add-item'>
+		<thead>
+		<tr>
+			<th>Type here your <span class='word-color'>brackets</span>!</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>
+				<label for='add-input-l'>Add input - Right</label>
+				<input
+						id='add-input-l'
+						size='2'
+						class='add-input add-l'
+						maxlength='1'
+						placeholder='<...'
+				/>
+			</td>
+			<td>
+				<label for='add-input-r'>Add input - Right</label>
+				<input
+						id='add-input-r'
+						size='2'
+						class='add-input add-r'
+						maxlength='1'
+						placeholder='>...'
+				/>
+			</td>
+			<td>
+				<input
+						value='add'
+						type='submit'
+						class='add-submit'
+				/>
+			</td>
+			<td>
+				<pre class='add-result text-center'></pre>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</main>
 </body>
 
 </html>
