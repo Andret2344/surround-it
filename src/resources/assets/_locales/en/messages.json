@@ -1,0 +1,30 @@
+{
+	"description": {
+		"message": "Simply wrap texts in any quotation marks, brackets, parentheses or any characters of your choice.",
+		"description": "The extension's description."
+	},
+	"left": {
+		"message": "left"
+	},
+	"right": {
+		"message": "right"
+	},
+	"example": {
+		"message": "example"
+	},
+	"active": {
+		"message": "active"
+	},
+	"actions": {
+		"message": "actions"
+	},
+	"type_here_your": {
+		"message": "Type here your"
+	},
+	"brackets": {
+		"message": "brackets"
+	},
+	"add": {
+		"message": "add"
+	}
+}

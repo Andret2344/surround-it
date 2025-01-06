@@ -6,6 +6,11 @@
 		"esModuleInterop": true,
 		"sourceMap": true,
 		"noEmitOnError": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"alwaysStrict": true,
+		"noUnusedParameters": true,
+		"pretty": true,
 		"typeRoots": [
 			"node_modules/@types"
 		]
