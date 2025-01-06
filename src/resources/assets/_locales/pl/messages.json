@@ -1,0 +1,30 @@
+{
+	"description": {
+		"message": "Po prostu otocz tekst w cudzysłów, dowolny nawias lub dowolną inną parę znaków.",
+		"description": "Opis rozszerzenia."
+	},
+	"left": {
+		"message": "lewy"
+	},
+	"right": {
+		"message": "prawy"
+	},
+	"example": {
+		"message": "przykład"
+	},
+	"active": {
+		"message": "aktywny"
+	},
+	"actions": {
+		"message": "akcje"
+	},
+	"type_here_your": {
+		"message": "To wpisz swoje"
+	},
+	"brackets": {
+		"message": "nawiasy"
+	},
+	"add": {
+		"message": "dodaj"
+	}
+}

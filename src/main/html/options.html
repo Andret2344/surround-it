@@ -13,18 +13,18 @@
 <body>
 <header>
 	<h1>Surround <span class='word-color'>it</span>!</h1>
-	<p>Simply wrap texts in any quotation marks, brackets, parentheses or any characters of your choice.</p>
+	<p data-localizable='description'></p>
 </header>
 
 <main>
 	<table class='table-main'>
 		<thead>
 		<tr>
-			<th>left</th>
-			<th>right</th>
-			<th>example</th>
-			<th>active</th>
-			<th>actions</th>
+			<th data-localizable='left'></th>
+			<th data-localizable='right'></th>
+			<th data-localizable='example'></th>
+			<th data-localizable='active'></th>
+			<th data-localizable='actions'></th>
 		</tr>
 		</thead>
 		<tbody id='tbody'>
@@ -34,7 +34,13 @@
 	<table class='table-add-item'>
 		<thead>
 		<tr>
-			<th>Type here your <span class='word-color'>brackets</span>!</th>
+			<th>
+				<span data-localizable='type_here_your'></span>&nbsp;
+				<span
+						class='word-color'
+						data-localizable='brackets'
+				></span>!
+			</th>
 		</tr>
 		</thead>
 		<tbody>
@@ -61,7 +67,8 @@
 			</td>
 			<td>
 				<input
-						value='add'
+						data-localizable-attr='value'
+						data-localizable='add'
 						type='submit'
 						class='add-submit'
 				/>

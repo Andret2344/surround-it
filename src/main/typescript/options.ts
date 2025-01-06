@@ -3,9 +3,24 @@ import '@fortawesome/fontawesome-free/js/fontawesome';
 import '@fortawesome/fontawesome-free/js/solid';
 import {BracketPair} from './entity/BracketPair';
 import {loadBracketPairs, saveBracketPairs} from './service/StorageService';
+import browser from 'webextension-polyfill';
 
 const tbodyElement: HTMLElement = document.getElementById('tbody') as HTMLElement;
 const currentBrackets: BracketPair[] = [];
+
+document.querySelectorAll('[data-localizable]').forEach((element: Element): void => {
+	const attribute: string | null = element.getAttribute('data-localizable');
+	if (!attribute) {
+		return;
+	}
+	const message: string = browser.i18n.getMessage(attribute);
+	const translationAttr: string | null = element.getAttribute('data-localizable-attr');
+	if (translationAttr) {
+		element.setAttribute(translationAttr, message)
+	} else {
+		element.textContent = message;
+	}
+});
 
 document.addEventListener('click', (ev: MouseEvent): void => {
 	const target: Element | null = (ev.target as Element).closest('.bracket-active');
