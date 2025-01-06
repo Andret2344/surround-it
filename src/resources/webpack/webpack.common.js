@@ -6,7 +6,8 @@ module.exports = {
 	mode: 'production',
 	entry: {
 		background: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'background.ts'),
-		popup: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'popup.ts')
+		popup: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'popup.ts'),
+		options: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'options.ts')
 	},
 	devtool: 'inline-source-map',
 	resolve: {
@@ -32,7 +33,8 @@ module.exports = {
 	plugins: [
 		new CopyWebpackPlugin({
 			patterns: [
-				{from: 'src/resources/assets', to: 'assets'},
+				{from: 'src/resources/assets/icons', to: 'icons'},
+				{from: 'src/resources/assets/_locales', to: '_locales'},
 				{from: require.resolve('webextension-polyfill'), to: 'webextension-polyfill.js'}
 			]
 		}),
@@ -40,7 +42,13 @@ module.exports = {
 			template: 'src/main/html/popup.html',
 			filename: 'popup.html',
 			inject: 'body',
-			chunks: ['popup'],
+			chunks: ['popup']
+		}),
+		new HtmlWebpackPlugin({
+			template: 'src/main/html/options.html',
+			filename: 'options.html',
+			inject: 'body',
+			chunks: ['options']
 		})
 	]
 };

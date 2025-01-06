@@ -1,0 +1,148 @@
+$blue: #00b7ff;
+$dark: #242421;
+$dark-light: #3b3b36;
+$white: rgb(233, 233, 233);
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+	height: 100vh;
+	background-color: $dark;
+	color: $white;
+
+	.word-color {
+		color: $blue;
+	}
+
+	.text-center {
+		text-align: center;
+	}
+
+	.icon-container {
+		cursor: pointer;
+	}
+
+	header {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin: 1em;
+		width: 50%;
+
+		h1 {
+			font-size: 4rem;
+		}
+
+		p {
+			font-size: 2.5rem;
+		}
+	}
+
+	main {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+
+		table {
+			font-size: 1.9rem;
+			width: 50%;
+
+			thead {
+				margin: 0.5em 0;
+			}
+		}
+
+		.table-main {
+			background-color: $dark-light;
+			accent-color: $blue;
+			padding: 0.5em 0 1em 0;
+			border-collapse: collapse;
+
+			thead th {
+				background-color: $dark-light;
+				text-transform: uppercase;
+				padding: 0.5em;
+			}
+
+			tbody tr td {
+				padding: 0.3em 0;
+			}
+
+			tr:nth-child(odd) {
+				background-color: $dark;
+			}
+		}
+
+		.table-add-item {
+			display: flex;
+			flex-direction: column;
+			padding: 0.5em 0;
+
+			label {
+				display: none;
+			}
+
+			.add-input {
+				border: none;
+				background: transparent;
+				text-decoration: none;
+				text-align: center;
+				color: $white;
+				font-size: 1.9rem;
+				transition: ease-in 0.2s;
+				outline: none;
+				caret-color: $blue;
+
+				&:focus,
+				&:hover {
+					box-shadow: 0 1px 0 $blue;
+				}
+			}
+
+			th {
+				padding: 0 0.1em;
+			}
+
+			td {
+				padding: 0 0.5em;
+			}
+
+			.add-submit {
+				display: inline-block;
+				padding: 0.5em 1em;
+				text-transform: uppercase;
+				font-weight: 600;
+				border: 2px solid $blue;
+				color: $dark;
+				background-color: $blue;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: 0.3s;
+
+				&:hover {
+					background-color: $white;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<meta
+			name='viewport'
+			content='width=device-width, initial-scale=1'
+	/>
+	<title>Surround it!</title>
+</head>
+<body>
+<header>
+	<h1>Surround <span class='word-color'>it</span>!</h1>
+	<p data-localizable='description'></p>
+</header>
+<main>
+	<table class='table-main'>
+		<thead>
+		<tr>
+			<th data-localizable='left'></th>
+			<th data-localizable='right'></th>
+			<th data-localizable='example'></th>
+			<th data-localizable='active'></th>
+			<th data-localizable='actions'></th>
+		</tr>
+		</thead>
+		<tbody id='tbody'>
+		</tbody>
+	</table>
+	<table class='table-add-item'>
+		<thead>
+		<tr>
+			<th>
+				<span data-localizable='type_here_your'></span>&nbsp;
+				<span
+						class='word-color'
+						data-localizable='brackets'
+				></span>!
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>
+				<label for='add-input-l'>Type in left bracket</label>
+				<input
+						id='add-input-l'
+						size='2'
+						class='add-input add-l'
+						maxlength='1'
+						placeholder='<...'
+				/>
+			</td>
+			<td>
+				<label for='add-input-r'>Type in right bracket</label>
+				<input
+						id='add-input-r'
+						size='2'
+						class='add-input add-r'
+						maxlength='1'
+						placeholder='>...'
+				/>
+			</td>
+			<td>
+				<input
+						type='submit'
+						class='add-submit'
+						data-localizable='add'
+						data-localizable-attr='value'
+				/>
+			</td>
+			<td>
+				<pre class='add-result text-center'></pre>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+</main>
+</body>
+</html>
