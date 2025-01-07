@@ -12,6 +12,4 @@ if (powerButton) {
 			(): void => setActive(true, (): void => powerButton.classList.add('active'))));
 }
 
-document.querySelector('#options-button')?.addEventListener('click', (): void => {
-	browser.runtime.openOptionsPage()
-});
+document.querySelector('#options-button')?.addEventListener('click', (): Promise<void> => browser.runtime.openOptionsPage());
