@@ -8,6 +8,8 @@ import browser from 'webextension-polyfill';
 const tbodyElement: HTMLElement = document.getElementById('tbody') as HTMLElement;
 const currentBrackets: BracketPair[] = [];
 
+insertCustomText();
+
 document.querySelectorAll('[data-localizable]').forEach((element: Element): void => {
 	const attribute: string | null = element.getAttribute('data-localizable');
 	if (!attribute) {
@@ -141,6 +143,14 @@ function escapeHTML(str: string): string {
 		.replace(/>/g, '&gt;')
 		.replace(/"/g, '&quot;')
 		.replace(/'/g, '&#039;');
+}
+
+function insertCustomText(): void {
+	const span: Element | null = document.querySelector('#span-text-add-heading');
+	if (span) {
+		const bracketsHtml = `<span class="word-color">${browser.i18n.getMessage('brackets')}</span>`;
+		span.innerHTML = browser.i18n.getMessage('type_here', [bracketsHtml]);
+	}
 }
 
 document.addEventListener('DOMContentLoaded', restoreOptions);

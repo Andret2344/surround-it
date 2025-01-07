@@ -9,7 +9,6 @@ module.exports = {
 		popup: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'popup.ts'),
 		options: path.resolve(__dirname, '..', '..', 'main', 'typescript', 'options.ts')
 	},
-	devtool: 'inline-source-map',
 	resolve: {
 		extensions: ['.ts', '.js']
 	},

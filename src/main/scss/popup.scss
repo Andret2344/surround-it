@@ -1,3 +1,5 @@
+@use "_base";
+
 body {
 	background: #000000;
 
@@ -7,6 +9,7 @@ body {
 }
 
 #power-button {
+	font-family: "Noto Sans", serif;
 	font-size: 150px;
 	cursor: pointer;
 	user-select: none;

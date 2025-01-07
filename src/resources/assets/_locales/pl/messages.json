@@ -18,8 +18,13 @@
 	"actions": {
 		"message": "akcje"
 	},
-	"type_here_your": {
-		"message": "To wpisz swoje"
+	"type_here": {
+		"message": "Tu wpisz swoje $brackets$!",
+		"placeholders": {
+			"brackets": {
+				"content": "$1"
+			}
+		}
 	},
 	"brackets": {
 		"message": "nawiasy"

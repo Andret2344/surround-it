@@ -1,6 +1,6 @@
 {
 	"description": {
-		"message": "Simply wrap texts in any quotation marks, brackets, parentheses or any characters of your choice.",
+		"message": "Easily enclose text with quotation marks, brackets or any characters of your choice.",
 		"description": "The extension's description."
 	},
 	"left": {
@@ -18,8 +18,13 @@
 	"actions": {
 		"message": "actions"
 	},
-	"type_here_your": {
-		"message": "Type here your"
+	"type_here": {
+		"message": "Type your $brackets$ here!",
+		"placeholders": {
+			"brackets": {
+				"content": "$1"
+			}
+		}
 	},
 	"brackets": {
 		"message": "brackets"

@@ -11,7 +11,9 @@
 	],
 	"scripts": {
 		"build:chromium": "webpack --config src/resources/webpack/webpack.chromium.js",
-		"build:firefox": "webpack --config src/resources/webpack/webpack.firefox.js"
+		"watch:chromium": "webpack --config src/resources/webpack/webpack.chromium.js --watch --devtool inline-source-map --mode development",
+		"build:firefox": "webpack --config src/resources/webpack/webpack.firefox.js",
+		"watch:firefox": "webpack --config src/resources/webpack/webpack.firefox.js  --watch --devtool inline-source-map --mode development"
 	},
 	"author": {
 		"email": "andret2344@gmail.com",

@@ -1,0 +1,35 @@
+{
+	"description": {
+		"message": "Umschließt Texte einfach mit Anführungszeichen, Klammern oder beliebigen Zeichen deiner Wahl.",
+		"description": "Opis rozszerzenia."
+	},
+	"left": {
+		"message": "links"
+	},
+	"right": {
+		"message": "rechts"
+	},
+	"example": {
+		"message": "Beispiel"
+	},
+	"active": {
+		"message": "aktiv"
+	},
+	"actions": {
+		"message": "aktien"
+	},
+	"type_here": {
+		"message": "Gibst du hier deine $brackets$ ein!",
+		"placeholders": {
+			"brackets": {
+				"content": "$1"
+			}
+		}
+	},
+	"brackets": {
+		"message": "Klammern"
+	},
+	"add": {
+		"message": "hinzufügen"
+	}
+}
