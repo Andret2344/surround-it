@@ -2,7 +2,7 @@ import '../scss/popup.scss';
 import {runWithActive, setActive} from './service/StorageService';
 import browser from 'webextension-polyfill';
 
-const powerButton: Element | null = document.querySelector('#power-button');
+const powerButton: Element | null = document.querySelector('.power-button');
 if (powerButton) {
 	runWithActive((): void => powerButton.classList.add('active'));
 
