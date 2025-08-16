@@ -1,0 +1,128 @@
+name: WebExtension CI
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  deps:
+    name: Install deps
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Restore Yarn & node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install
+        run: yarn install --frozen-lockfile
+
+  build_chromium:
+    name: Build & Pack (chromium)
+    needs: deps
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Restore Yarn & node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+
+      - name: Build chromium
+        run: yarn run build:chromium
+
+      - name: Zip chromium
+        working-directory: dist/chromium
+        run: zip -r ../surround-it-chromium.zip .
+
+      - name: Upload chromium ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: surround-it-chromium
+          path: dist/surround-it-chromium.zip
+
+  build_firefox:
+    name: Build & Pack (firefox)
+    needs: deps
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Restore Yarn & node_modules cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/yarn
+            node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
+
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+
+      - name: Build firefox
+        run: yarn run build:firefox
+
+      - name: Zip firefox
+        working-directory: dist/firefox
+        run: zip -r ../surround-it-firefox.zip .
+
+      - name: Upload firefox ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: surround-it-firefox
+          path: dist/surround-it-firefox.zip
+
+  release:
+    name: GitHub Release ${{ github.ref_name }}
+    needs: [ build_chromium, build_firefox ]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download both ZIPs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: surround-it-*
+          merge-multiple: true
+          path: dist
+
+      - name: Create Release and attach ZIPs
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}
+          files: dist/surround-it-*.zip
