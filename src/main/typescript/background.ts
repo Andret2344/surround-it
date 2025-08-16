@@ -30,20 +30,21 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 		}
 		runWithActive(
 			(): void => setSelectedTextForInput(target, bracketPairs[index]),
-			(): void => insertTextForInput(target, event.key));
+			(): void => insertTextForInput(target, event.key)
+		);
 	});
 });
 
 document.addEventListener('keypress', (event: KeyboardEvent): void => {
-	const target = event.target as HTMLElement;
-	if (!target.matches('[contenteditable]')) {
+	const root = (event.target as HTMLElement).closest('[contenteditable]') as HTMLElement | null;
+	if (!root) {
 		return;
 	}
-	const selectedText: string = getSelectedTextForContentEditable(target);
+	const selectedText: string = getSelectedTextForContentEditable(root);
 	if (!selectedText) {
 		return;
 	}
-	const element: Element | undefined = findInWith(target, selectedText);
+	const element: Element | undefined = findInWith(root, selectedText);
 	if (!element) {
 		return;
 	}
@@ -59,8 +60,9 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 			return;
 		}
 		runWithActive(
-			(): void => setSelectedTextForContentEditable(target, bracketPairs[index]),
-			(): void => insertTextForContentEditable(element, event.key));
+			(): void => setSelectedTextForContentEditable(root, bracketPairs[index]),
+			(): void => insertTextForContentEditable(element, event.key)
+		);
 	});
 });
 
@@ -90,7 +92,7 @@ function setSelectedTextForInput(input: HTMLInputElement | HTMLTextAreaElement, 
 
 function insertTextForInput(element: HTMLInputElement | HTMLTextAreaElement, text: string): void {
 	const startPos: number = element.selectionStart ?? 0;
-	const endPos: number = element.selectionEnd ?? (element.textContent?.length ?? 0) - 1;
+	const endPos: number = element.selectionEnd ?? element.value.length;
 	const selectionEnd: number = startPos + text.length;
 	element.setRangeText(text, startPos, endPos, 'end');
 	element.selectionStart = selectionEnd;
@@ -102,8 +104,12 @@ function insertTextForInput(element: HTMLInputElement | HTMLTextAreaElement, tex
 //////////////////////
 
 function getSelectedTextForContentEditable(element: HTMLElement): string {
-	const range: Range | undefined = window.getSelection()?.getRangeAt(0);
-	if (!range || range.startContainer !== range.endContainer) {
+	const selection: Selection | null = window.getSelection();
+	if (!selection || selection.rangeCount === 0) {
+		return '';
+	}
+	const range: Range = selection.getRangeAt(0);
+	if (range.startContainer !== range.endContainer) {
 		return '';
 	}
 	const start: number = range.startOffset;
@@ -116,7 +122,7 @@ function setSelectedTextForContentEditable(element: HTMLElement, bracketPair: Br
 	const anchorOffset: number = selection?.anchorOffset ?? 0;
 	const focusOffset: number = selection?.focusOffset ?? 0;
 
-	if (selection) {
+	if (selection && selection.rangeCount > 0) {
 		const range: Range = selection.getRangeAt(0);
 		const selectedText: string = range.toString();
 
@@ -159,6 +165,11 @@ function insertTextForContentEditable(element: Element, text: string): void {
 		const textNode: Text = document.createTextNode(text);
 
 		range.deleteContents();
+		range.insertNode(textNode);
+		range.setStartAfter(textNode);
+		range.setEndAfter(textNode);
+		selection.removeAllRanges();
+		selection.addRange(range);
 
 		const inputEvent = new InputEvent('input', {
 			data: textNode.textContent,
@@ -177,6 +188,8 @@ function insertTextForContentEditable(element: Element, text: string): void {
 ///////////////////////
 
 function findInWith(target: HTMLElement, selectedText: string): Element | undefined {
-	return Array.from(target.querySelectorAll(`*:not(:has(*))`))
-		.find((el: Element): boolean => el.textContent?.includes(selectedText) ?? false);
+	return Array.from(target.querySelectorAll(`*:not(:has(*))`)).find(
+		(el: Element): boolean => el.textContent?.includes(selectedText) ?? false
+	);
 }
+
