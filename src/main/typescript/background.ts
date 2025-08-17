@@ -30,13 +30,15 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 		}
 		runWithActive(
 			(): void => setSelectedTextForInput(target, bracketPairs[index]),
-			(): void => insertTextForInput(target, event.key)
-		);
+			(): void => insertTextForInput(target, event.key));
 	});
 });
 
 document.addEventListener('keypress', (event: KeyboardEvent): void => {
-	const root = (event.target as HTMLElement).closest('[contenteditable]') as HTMLElement | null;
+	if (!event.target) {
+		return;
+	}
+	const root: HTMLElement | null = (event.target as HTMLElement).closest('[contenteditable]');
 	if (!root) {
 		return;
 	}
@@ -49,7 +51,7 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 		return;
 	}
 	event.preventDefault();
-	loadBracketPairs().then((bracketPairs: BracketPair[]) => {
+	loadBracketPairs().then((bracketPairs: BracketPair[]): void => {
 		const index: number = bracketPairs.map((pair: BracketPair): string => pair.l).indexOf(event.key);
 		if (index === -1) {
 			insertTextForContentEditable(element, event.key);
@@ -61,8 +63,7 @@ document.addEventListener('keypress', (event: KeyboardEvent): void => {
 		}
 		runWithActive(
 			(): void => setSelectedTextForContentEditable(root, bracketPairs[index]),
-			(): void => insertTextForContentEditable(element, event.key)
-		);
+			(): void => insertTextForContentEditable(element, event.key));
 	});
 });
 
@@ -188,8 +189,6 @@ function insertTextForContentEditable(element: Element, text: string): void {
 ///////////////////////
 
 function findInWith(target: HTMLElement, selectedText: string): Element | undefined {
-	return Array.from(target.querySelectorAll(`*:not(:has(*))`)).find(
-		(el: Element): boolean => el.textContent?.includes(selectedText) ?? false
-	);
+	return Array.from(target.querySelectorAll(`*:not(:has(*))`))
+		.find((el: Element): boolean => el.textContent?.includes(selectedText) ?? false);
 }
-
