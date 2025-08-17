@@ -1,28 +1,51 @@
-import browser from 'webextension-polyfill';
+import browser, {Storage} from 'webextension-polyfill';
 import {BracketPair} from '../entity/BracketPair';
+import StorageChange = Storage.StorageChange;
 
 //////////////////////
 //      ACTIVE      //
 //////////////////////
 
-function runWithActive(whenTrue: () => void, whenFalse: () => void = (): void => undefined): void {
-	browser.storage.local.get('active').then((items: Record<string, any>): void => {
-		// default == true
-		if (items['active'] === false) {
-			whenFalse();
-		} else {
-			whenTrue();
-		}
-	});
+let featureActive: boolean = true;
+
+initActive().then();
+
+function isActive(): boolean {
+	return featureActive;
 }
 
-function setActive(active: boolean, callback: () => void = (): void => undefined): void {
-	browser.storage.local.set({'active': active}).then(callback);
+async function loadActive(): Promise<boolean> {
+	const record: Record<string, unknown> = await browser.storage.local.get('active');
+	console.log(record);
+	return record['active'] as boolean ?? false;
+}
+
+async function initActive(): Promise<void> {
+	featureActive = await loadActive();
+}
+
+browser.storage.onChanged.addListener((changes: Record<string, StorageChange>, area: string): void => {
+	if (area === 'local' && changes.active) {
+		featureActive = changes.active.newValue !== false;
+	}
+});
+
+function setActive(active: boolean, callback: (() => void) | undefined = undefined): void {
+	featureActive = active;
+	browser.storage.local.set({active}).then(callback);
 }
 
 //////////////////////
 //     BRACKETS     //
 //////////////////////
+
+let brackets: BracketPair[] = [];
+
+initBrackets().then();
+
+function getBracketPairs(): BracketPair[] {
+	return [...brackets];
+}
 
 function getDefaultBracketPairs(): BracketPair[] {
 	return [
@@ -42,7 +65,7 @@ function getDefaultBracketPairs(): BracketPair[] {
 		{l: '$', r: '$', active: false},
 		{l: '%', r: '%', active: false},
 		{l: '|', r: '|', active: false}
-	]
+	];
 }
 
 async function saveBracketPairs(bracketPairs: BracketPair[]): Promise<void> {
@@ -54,9 +77,28 @@ async function loadBracketPairs(): Promise<BracketPair[]> {
 	return value['bracketPairs'] ?? getDefaultBracketPairs();
 }
 
+async function initBrackets(): Promise<void> {
+	brackets = await loadBracketPairs();
+}
+
+browser.storage.onChanged.addListener((changes: Record<string, StorageChange>, area: string): void => {
+	if (area !== 'local') {
+		return;
+	}
+	if (changes.bracketPairs) {
+		const newValue: BracketPair[] = changes.bracketPairs.newValue as BracketPair[];
+		brackets = newValue ?? getDefaultBracketPairs();
+	}
+	if (changes.active) {
+		featureActive = changes.active.newValue as boolean;
+	}
+});
+
 export {
-	runWithActive,
+	isActive,
 	setActive,
+	loadActive,
 	saveBracketPairs,
+	getBracketPairs,
 	loadBracketPairs
 };

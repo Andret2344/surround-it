@@ -40,7 +40,6 @@
       <option name="LOWER_CASE_NULL_CONST" value="true" />
       <option name="ELSE_IF_STYLE" value="SEPARATE" />
       <option name="FORCE_SHORT_DECLARATION_ARRAY_STYLE" value="true" />
-      <option name="ATTRIBUTES_WRAP" value="2" />
     </PHPCodeStyleSettings>
     <SqlCodeStyleSettings version="7">
       <option name="KEYWORD_CASE" value="2" />
