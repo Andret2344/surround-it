@@ -36,3 +36,11 @@ body:
       placeholder: Identify any unresolved issues
     validations:
       required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Obligatory checks
+      description: By submitting this issue, you confirm all of the following aspects.
+      options:
+        - label: I confirm that there is no issue that already covers this feature request.
+          required: true

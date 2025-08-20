@@ -62,8 +62,8 @@ body:
   - type: checkboxes
     id: terms
     attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com).
+      label: Obligatory checks
+      description: By submitting this issue, you confirm all of the following aspects.
       options:
-        - label: I agree to follow this project's Code of Conduct
+        - label: I confirm that there is no issue that already covers this bug.
           required: true
