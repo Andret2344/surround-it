@@ -23,7 +23,7 @@ body:
         3.
     validations:
       required: true
-  - type: markdown
+  - type: textarea
     id: expected-and-actual-behaviour
     attributes:
       label: Expected and actual behaviour
@@ -42,7 +42,7 @@ body:
       options:
         - v0.5.0 (latest)
         - v0.4.2
-      default: v0.5.0 (latest)
+      default: 0
     validations:
       required: true
   - type: dropdown
