@@ -7,7 +7,24 @@ Wrap selected text in quotes, backticks, or brackets—just like your favorite I
 
 ## Table of Contents
 
-[[__TOC__]]
+- [Surround It — v0.5.0](#surround-it--v050)
+    * [Table of Contents](#table-of-contents)
+    * [Overview](#overview)
+    * [Features](#features)
+    * [Installation](#installation)
+    * [Usage](#usage)
+    * [Configuration & Options](#configuration--options)
+    * [Development](#development)
+        + [Prerequisites](#prerequisites)
+        + [Setup Instructions](#setup-instructions)
+        + [Running the code](#running-the-code)
+            - [Build](#build)
+            - [Test](#test)
+    * [Contribution Guidelines](#contribution-guidelines)
+    * [Changelog](#changelog)
+        + [v0.5.0](#v050)
+    * [License & Acknowledgments](#license--acknowledgments)
+    * [Contact](#contact)
 
 ---
 
@@ -18,7 +35,6 @@ backticks, or brackets. Automagically and intelligently.
 
 - **Inspired by**: IDEs like VS Code, IntelliJ—makes typing quotes or brackets wrap selected content instead of replacing it.
 - **Use case**: Developers, writers, editors—anyone editing text and tired of manually wrapping selections.
-- **Current version**: v0.5.0 (released on **August 17, 2025**) :contentReference[oaicite:1]{index=1}.
 
 ---
 
@@ -31,8 +47,8 @@ backticks, or brackets. Automagically and intelligently.
     - `( )` (parentheses)
     - `[ ]` (square brackets)
     - `{ }` (curly braces)
-- **Lightweight** and **minimal permissions**.
 - **Extensible**: You can customize the wrapping characters due to your liking.
+- **Lightweight** and **minimal permissions**.
 
 ---
 
@@ -50,20 +66,11 @@ backticks, or brackets. Automagically and intelligently.
 
 1. Install the extension from your browser's store (see [Installation](#installation)).
 2. Highlight any text in an input, textarea or contentEditable DOM element.
-3. Press the key for the desired wrapper (e.g., `"` or `(`).
-4. **Result**: Text is automatically wrapped:
-
-```
-
-"selected text"
-(selected text)
-
-````
-
+3. Press the key for the desired wrapper (e.g., `"`).
+4. **Result**: Text is automatically wrapped: `"selected text"`
 5. **Edge cases**:
-
-- **No selection**: Insert an empty pair and place the cursor between.
-- ** Text already wrapped**: Wrap again.
+    - **No selection**: Insert an empty pair and place the cursor between.
+    - **Text already wrapped**: Wrap again.
 
 ---
 
@@ -79,27 +86,40 @@ backticks, or brackets. Automagically and intelligently.
 
 ### Prerequisites
 
-- Node.js **>= 22.18.0** (tested locally)
-- Yarn
+Tested versions:
+
+- Node.js **>= 22.18.0**
+- Yarn **>= 1.22.22**
+
+> Note: Other versions might work as well but haven't been tested. If you have knowledge about it running on earlier versions, please let me know.
 
 ### Setup Instructions
 
 ```bash
-git clone https://github.com/Andret2344/surround-it.git
+git clone git@github.com:Andret2344/surround-it.git
 cd surround-it
-yarn install
+yarn
 ````
 
-### Build & Test
+### Running the code
 
-```bash
-yarn build
-```
+#### Build
 
-To test locally:
+There are four tasks to work with the extension locally:
 
-* **Chrome/Edge**: Load the `dist/` folder via `chrome://extensions`.
-* **Firefox**: Install from `about:debugging` with `dist/`.
+- `yarn build:chromium` - build the extension for chromium-based browsers.
+- `yarn watch:chromium` - as above, but in a constant-watching mode.
+- `yarn build:firefox` - build the extension for firefox browser.
+- `yarn watch:firefox` - as above, but in a constant-watching mode.
+
+#### Test
+
+After running the `:build` or `:watch` task, load the `dist/` folder:
+
+* **Chrome/Edge**: Via `chrome://extensions`.
+* **Firefox**: Via `about:addons` on [Firefox developer edition](https://www.firefox.com/en-US/channel/desktop/developer/).
+
+> Note: There are currently no automatic tests, will be added in the future.
 
 ---
 
@@ -127,7 +147,11 @@ Please follow:
 
 Release date: *2025-08-17*
 
-* Initial browser-ready release for Chrome, Firefox, and Edge. ([GitHub][1])
+* Fixed not working mechanics, making the extension more reliable.
+
+[View release](https://github.com/Andret2344/surround-it/releases/tag/v0.5.0)
+
+> Note: This is the very first release on GitHub.
 
 ---
 
@@ -135,7 +159,7 @@ Release date: *2025-08-17*
 
 * © 2025 **Andret2344**
 * License: **CC BY-SA 4.0**
-* Inspired by behavior in popular IDEs like VS Code.
+* Inspired by behavior in popular IDEs like IntelliJ IDEA.
 
 ---
 
@@ -144,8 +168,4 @@ Release date: *2025-08-17*
 Questions, ideas, bug reports:
 
 * GitHub Issues: https://github.com/Andret2344/surround-it/issues
-* Email: andret2344@gmail.com
-
----
-
-[1]: https://github.com/Andret2344/surround-it "GitHub - Andret2344/surround-it: Extension inspired by programming IDEs. Simply wrap a text in any brackets or string marks: single or double quotation marks, or the grave accent."
+* Email: [andret2344@gmail.com](mailto:andret2344@gmail.com)
