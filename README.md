@@ -1,7 +1,18 @@
 # Surround It — v0.5.0
 
+![Release](https://img.shields.io/github/v/release/Andret2344/surround-it)
+![GitHub Release Date](https://img.shields.io/github/release-date/Andret2344/surround-it)
+[![License](https://img.shields.io/github/license/Andret2344/surround-it?color=blue)](https://github.com/Andret2344/surround-it/blob/main/LICENSE.txt)
+![Pipeline](https://img.shields.io/github/actions/workflow/status/Andret2344/surround-it/ci.yml)
+![Issues opened](https://img.shields.io/github/issues-raw/Andret2344/surround-it)
+![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FAndret2344%2Fsurround-it&label=repository%20visits&countColor=%230c7ebe&style=flat)
+![Chrome Extension Users](https://img.shields.io/chrome-web-store/users/cjelblbjilfobifendknkljagdndaipd)
+
+---
+
 **Simple. Fast. Intuitive.**
-Wrap selected text in quotes, backticks, or brackets—just like your favorite IDE, but right in your browser.
+
+Wrap selected text in quotes, backticks, or brackets — just like your favorite IDE, but right in your browser.
 
 ---
 
@@ -30,11 +41,11 @@ Wrap selected text in quotes, backticks, or brackets—just like your favorite I
 
 ## Overview
 
-**Surround it!** is a browser extension (Chrome, Firefox, Edge) that replicates one of the most addictive features in modern IDEs: wrapping a selected text with matching quotes,
+**Surround it** is a browser extension (Chrome, Firefox, Edge) that replicates one of the most addictive features in modern IDEs: wrapping a selected text with matching quotes,
 backticks, or brackets. Automagically and intelligently.
 
-- **Inspired by**: IDEs like VS Code, IntelliJ—makes typing quotes or brackets wrap selected content instead of replacing it.
-- **Use case**: Developers, writers, editors—anyone editing text and tired of manually wrapping selections.
+- **Inspired by**: IDEs like VS Code, IntelliJ — makes typing quotes or brackets wrap selected content instead of replacing it.
+- **Use case**: Developers, writers, editors — anyone editing text and tired of manually wrapping selections.
 
 ---
 
@@ -65,7 +76,7 @@ backticks, or brackets. Automagically and intelligently.
 ## Usage
 
 1. Install the extension from your browser's store (see [Installation](#installation)).
-2. Highlight any text in an input, textarea or contentEditable DOM element.
+2. Highlight any text in an input, textarea, or contentEditable DOM element.
 3. Press the key for the desired wrapper (e.g., `"`).
 4. **Result**: Text is automatically wrapped: `"selected text"`
 5. **Edge cases**:
@@ -91,7 +102,8 @@ Tested versions:
 - Node.js **>= 22.18.0**
 - Yarn **>= 1.22.22**
 
-> Note: Other versions might work as well but haven't been tested. If you have knowledge about it running on earlier versions, please let me know.
+> [!NOTE]
+> Other versions might work as well but haven't been tested. If you have knowledge about it running on earlier versions, please let me know.
 
 ### Setup Instructions
 
@@ -119,7 +131,8 @@ After running the `:build` or `:watch` task, load the `dist/` folder:
 * **Chrome/Edge**: Via `chrome://extensions`.
 * **Firefox**: Via `about:addons` on [Firefox developer edition](https://www.firefox.com/en-US/channel/desktop/developer/).
 
-> Note: There are currently no automatic tests, will be added in the future.
+> [!IMPORTANT]
+> There are currently no automatic tests, will be added in the future.
 
 ---
 
@@ -145,13 +158,14 @@ Please follow:
 
 ### v0.5.0
 
-Release date: *2025-08-17*
+[View release](https://github.com/Andret2344/surround-it/releases/tag/v0.5.0)
+
+Released on: *2025-08-17*
 
 * Fixed not working mechanics, making the extension more reliable.
 
-[View release](https://github.com/Andret2344/surround-it/releases/tag/v0.5.0)
-
-> Note: This is the very first release on GitHub.
+> [!NOTE]
+> This is the very first release on GitHub.
 
 ---
 
