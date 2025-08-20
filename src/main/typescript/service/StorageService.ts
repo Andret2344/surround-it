@@ -42,8 +42,8 @@ let brackets: BracketPair[] = [];
 
 initBrackets().then();
 
-function getBracketPairs(): BracketPair[] {
-	return [...brackets];
+function getActiveBracketPairs(): BracketPair[] {
+	return brackets.filter((p: BracketPair): boolean => p.active);
 }
 
 function getDefaultBracketPairs(): BracketPair[] {
@@ -98,6 +98,6 @@ export {
 	setActive,
 	loadActive,
 	saveBracketPairs,
-	getBracketPairs,
+	getActiveBracketPairs,
 	loadBracketPairs
 };

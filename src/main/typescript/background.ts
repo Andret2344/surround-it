@@ -1,20 +1,17 @@
-import {getBracketPairs, isActive} from './service/StorageService';
 import {BracketPair} from './entity/BracketPair';
+import {getProcessedBracketPair, isTextBox, isEventCorrect} from './guards';
 
 //////////////////////
 // INPUT & TEXTAREA //
 //////////////////////
 
 document.addEventListener('beforeinput', (event: InputEvent): void => {
-	const target = event.target as HTMLInputElement | HTMLTextAreaElement | null;
-	if (!isActive() || !target || event.isComposing || event.inputType !== 'insertText' || typeof event.data !== 'string') {
+	if (!isEventCorrect(event)) {
 		return;
 	}
 
-	const isTextBox: boolean =
-		target instanceof HTMLTextAreaElement ||
-		target instanceof HTMLInputElement && !target.readOnly && !target.disabled;
-	if (!isTextBox) {
+	const target = event.target as HTMLInputElement | HTMLTextAreaElement | null;
+	if (!isTextBox(target)) {
 		return;
 	}
 
@@ -24,8 +21,8 @@ document.addEventListener('beforeinput', (event: InputEvent): void => {
 		return;
 	}
 
-	const pair: BracketPair | undefined = getBracketPairs().find((p: BracketPair): boolean => p.l === event.data);
-	if (!pair?.active) {
+	const pair: BracketPair | null = getProcessedBracketPair(event.data);
+	if (!pair) {
 		return;
 	}
 
@@ -57,9 +54,12 @@ function wrapSelectionWithBracketsInput(element: HTMLInputElement | HTMLTextArea
 //////////////////////
 
 document.addEventListener('beforeinput', (event: InputEvent): void => {
-	const target = event.target as HTMLElement | null;
-	const root = target?.closest('[contenteditable]') as HTMLElement | null;
-	if (!isActive() || !root || event.isComposing || event.inputType !== 'insertText' || typeof event.data !== 'string') {
+	if (!isEventCorrect(event)) {
+		return;
+	}
+
+	const root: HTMLElement | null = getRoot(event.target);
+	if (!root) {
 		return;
 	}
 
@@ -73,8 +73,8 @@ document.addEventListener('beforeinput', (event: InputEvent): void => {
 		return;
 	}
 
-	const pair: BracketPair | undefined = getBracketPairs().find((p: BracketPair): boolean => p.l === event.data);
-	if (!pair?.active) {
+	const pair: BracketPair | null = getProcessedBracketPair(event.data);
+	if (!pair) {
 		return;
 	}
 
@@ -86,6 +86,32 @@ document.addEventListener('beforeinput', (event: InputEvent): void => {
 		setSelectedTextForContentEditable(root, pair);
 	}
 });
+
+function getRoot(target: EventTarget | null): HTMLElement | null {
+	if (!target) {
+		return null;
+	}
+
+	if (target instanceof HTMLElement) {
+		if (target.isContentEditable) {
+			return target;
+		}
+		return target.closest('[contenteditable="true"]');
+	}
+
+	if (target instanceof Node) {
+		const element: HTMLElement | null = target.parentElement;
+		if (!element) {
+			return null;
+		}
+		if (element.isContentEditable) {
+			return element;
+		}
+		return element.closest('[contenteditable="true"]');
+	}
+
+	return null;
+}
 
 function insertPairAtCaret(root: HTMLElement, l: string, r: string): void {
 	const selection: Selection | null = window.getSelection();
