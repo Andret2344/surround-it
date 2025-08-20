@@ -16,7 +16,6 @@ function isActive(): boolean {
 
 async function loadActive(): Promise<boolean> {
 	const record: Record<string, unknown> = await browser.storage.local.get('active');
-	console.log(record);
 	return record['active'] as boolean ?? false;
 }
 
